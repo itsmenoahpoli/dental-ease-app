@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/vue-query": "^5.51.17",
     "axios": "^1.7.3",
     "feather-icons": "^4.29.2",
     "flowbite": "^2.4.1",

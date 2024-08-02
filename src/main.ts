@@ -1,7 +1,8 @@
 import { createApp, App } from "vue";
 import { createPinia, Pinia } from "pinia";
-import Vue3Toastify, { type ToastContainerOptions } from "vue3-toastify";
 import pluginPersistedState from "pinia-plugin-persistedstate";
+import { VueQueryPlugin } from "@tanstack/vue-query";
+import Vue3Toastify, { type ToastContainerOptions } from "vue3-toastify";
 import VueFeather from "vue-feather";
 import RootApp from "~/App.vue";
 import "~/styles/global.css";
@@ -23,6 +24,7 @@ app.component(VueFeather.name!, VueFeather);
  */
 app.use(pinia);
 app.use(router);
+app.use(VueQueryPlugin);
 app.use(Vue3Toastify, {
   autoClose: 3000,
   theme: "colored",

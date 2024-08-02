@@ -15,10 +15,21 @@ export const AuthService = {
         SET_AUTH_DATA(user, token);
         router.push({ name: "dashboard-home" });
       })
-      .catch((error) => {
-        console.log(error);
-
+      .catch(() => {
         toast.error("Login failed, invalid credentials", {
+          position: "top-center",
+        });
+      });
+  },
+
+  logout: async function () {
+    return await httpClient
+      .post("auth/logout")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch(() => {
+        toast.error("Logout failed, occured on server", {
           position: "top-center",
         });
       });
