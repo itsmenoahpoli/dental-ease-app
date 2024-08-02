@@ -1,33 +1,44 @@
-import { BaseService } from "./base.service";
-import { useAuthStore } from "@/store";
-import type { Credentials } from "@/types/auth";
+import { initializeApp } from "firebase/app";
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	signOut,
+	onAuthStateChanged,
+	User,
+} from "firebase/auth";
+import { firebaseConfig } from "~/config/firebase.config";
 
-export class AuthService extends BaseService {
-  public async authenticateCredentials(credentials: Credentials) {
-    return await this.http
-      .post("auth/login", credentials)
-      .then((response) => {
-        const { SET_USER, SET_TOKEN } = useAuthStore.getState();
-        const { user, token } = response.data;
+const app = initializeApp(firebaseConfig);
 
-        SET_USER(user);
-        SET_TOKEN(token);
+export const AuthService = {
+	auth: getAuth(app),
 
-        window.location.href = "/dashboard";
-      })
-      .catch((error) => this.handleError(error));
-  }
+	createAccount: async function () {
+		return await createUserWithEmailAndPassword(this.auth, "user@domain.com", "password")
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	},
 
-  public async unauthenticateCredentials() {
-    return await this.http
-      .post("auth/logout")
-      .then(() => {
-        const { RESET_AUTH } = useAuthStore.getState();
+	loginToAccount: async function () {
+		return signInWithEmailAndPassword(this.auth, "user@domain.com", "password")
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	},
 
-        RESET_AUTH();
+	signoutAccount: function () {
+		return signOut(this.auth);
+	},
 
-        window.location.href = "/login";
-      })
-      .catch((error) => this.handleError(error));
-  }
-}
+	onAuthStateChanged: function (callback: (user: User | null) => void) {
+		onAuthStateChanged(this.auth, callback);
+	},
+};

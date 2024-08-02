@@ -1,27 +1,15 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import type { User } from "@/types/models";
+import { defineStore } from "pinia";
 
-interface AuthState {
-  user?: User;
-  token?: string;
-  SET_USER: (user: User) => void;
-  SET_TOKEN: (token: string) => void;
-  RESET_AUTH: () => void;
-}
-
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
+export const useAuthStore = defineStore("auth-store", {
+  state: () => {
+    return {
       user: undefined,
-      token: undefined,
-      SET_USER: (user: User) => set({ user }),
-      SET_TOKEN: (token: string) => set({ token }),
-      RESET_AUTH: () => set({ user: undefined, token: undefined }),
-    }),
-    {
-      name: "auth-storage",
-      getStorage: () => localStorage,
-    }
-  )
-);
+    };
+  },
+  actions: {
+    //
+  },
+  getters: {
+    //
+  },
+});
