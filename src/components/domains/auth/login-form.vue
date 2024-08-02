@@ -28,15 +28,12 @@ const formFields = {
   } as FieldOptions),
 };
 
-const onFormSubmit = useDebounce(
-  handleSubmit(async (formData: unknown) => {
-    if (rememberMe) {
-      setStorageValue("remember-credentials", formData as Credentials);
-      return await AuthService.login(formData as Credentials);
-    }
-  }),
-  1500
-);
+const onFormSubmit = handleSubmit(async (formData: unknown) => {
+  if (rememberMe) {
+    setStorageValue("remember-credentials", formData as Credentials);
+    return await AuthService.login(formData as Credentials);
+  }
+});
 
 const checkRememberMe = () => {
   const savedCredentials = getStorageValue<Credentials>("remember-credentials");

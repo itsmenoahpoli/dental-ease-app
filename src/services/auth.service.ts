@@ -1,7 +1,7 @@
 import { toast } from "vue3-toastify";
 import { httpClient } from "~/api";
-import { router } from "~/router";
 import { useAuthStore } from "~/store";
+import { ROUTES } from "~/constants";
 import type { Credentials } from "~/types/auth";
 
 export const AuthService = {
@@ -13,7 +13,8 @@ export const AuthService = {
         const { SET_AUTH_DATA } = useAuthStore();
 
         SET_AUTH_DATA(user, token);
-        router.push({ name: "dashboard-home" });
+
+        window.location.href = ROUTES.DASHBOARD_HOME;
       })
       .catch(() => {
         toast.error("Login failed, invalid credentials", {
