@@ -10,17 +10,26 @@ const instance: AxiosInstance = axios.create({
 	baseURL: import.meta.env.VITE_APP_API_BASEURL,
 });
 
+const formatBearerToken = (): string | undefined => {
+	const { token } = useAuthStore();
+
+	if (token) {
+		return `Bearer ${token}`;
+	}
+
+	return undefined;
+};
+
 instance.interceptors.request.use(
 	(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
 		const API_KEY: string = import.meta.env.VITE_APP_API_KEY;
-		const AUTH_TOKEN: string | undefined = useAuthStore().token;
 
 		/**
 		 * Set Headers
 		 */
 		config.headers["Accept"] = "application/json";
 		config.headers["Content-Type"] = "application/json";
-		config.headers["Authorization"] = "Bearer " + AUTH_TOKEN;
+		config.headers["Authorization"] = formatBearerToken();
 		config.headers["X-API-KEY"] = API_KEY;
 
 		return config;
