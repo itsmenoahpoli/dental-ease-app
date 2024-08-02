@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import LoginForm from "~/components/domains/auth/login-form.vue";
+const $props = defineProps<{
+  title: string;
+  subtitle?: string;
+}>();
 </script>
 
 <template>
-  <LoginForm />
+  <div></div>
 </template>
 
 <style lang="scss" scoped></style>

@@ -14,7 +14,18 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/dashboard",
+      component: () => import("~/layouts/dashboard-layout.vue"),
+      children: [
+        {
+          path: "/dashboard/home",
+          name: "dashboard-home",
+          component: () => import("~/views/dashboard/home.vue"),
+        },
+      ],
+    },
   ],
 });
 
-export default router;
+export { router };

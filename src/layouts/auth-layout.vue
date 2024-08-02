@@ -1,13 +1,15 @@
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <div class="h-screen w-screen bg-slate-100">
-    <div class="h-[70px] w-screen bg-white shadow"></div>
-
-    <div class="h-full flex flex-col items-center gap-y-4 pt-[10%] border">
-      <div class="w-[400px] border">
+  <div class="h-screen w-screen">
+    <div class="h-full flex flex-col items-center gap-y-4 pt-[10%]">
+      <img src="/src/assets/dentalease-dashboard.png" alt="dentalease-dashboard.png" class="w-[300px] max-md:w-[80%]" />
+      <div class="w-[400px] mt-10" style="zoom: 0.85">
         <RouterView />
+
+        <div class="text-center text-xs text-gray-700 mt-3">
+          <p>&copy; All Rights Reserved. 2024</p>
+        </div>
       </div>
     </div>
   </div>

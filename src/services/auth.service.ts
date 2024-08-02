@@ -1,44 +1,26 @@
-import { initializeApp } from "firebase/app";
-import {
-	getAuth,
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
-	signOut,
-	onAuthStateChanged,
-	User,
-} from "firebase/auth";
-import { firebaseConfig } from "~/config/firebase.config";
-
-const app = initializeApp(firebaseConfig);
+import { toast } from "vue3-toastify";
+import { httpClient } from "~/api";
+import { router } from "~/router";
+import { useAuthStore } from "~/store";
+import type { Credentials } from "~/types/auth";
 
 export const AuthService = {
-	auth: getAuth(app),
+  login: async function (credentials: Credentials) {
+    return await httpClient
+      .post("auth/login", credentials)
+      .then((response) => {
+        const { user, token } = response.data;
+        const { SET_AUTH_DATA } = useAuthStore();
 
-	createAccount: async function () {
-		return await createUserWithEmailAndPassword(this.auth, "user@domain.com", "password")
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	},
+        SET_AUTH_DATA(user, token);
+        router.push({ name: "dashboard-home" });
+      })
+      .catch((error) => {
+        console.log(error);
 
-	loginToAccount: async function () {
-		return signInWithEmailAndPassword(this.auth, "user@domain.com", "password")
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	},
-
-	signoutAccount: function () {
-		return signOut(this.auth);
-	},
-
-	onAuthStateChanged: function (callback: (user: User | null) => void) {
-		onAuthStateChanged(this.auth, callback);
-	},
+        toast.error("Login failed, invalid credentials", {
+          position: "top-center",
+        });
+      });
+  },
 };
