@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 const $props = defineProps<{
   groupName: string;
+  children: { label: string; url: string }[];
 }>();
+
+console.log($props);
 </script>
 
 <template>

@@ -11,23 +11,18 @@ function useDebounce<T extends (...args: any[]) => void>(func: T, wait: number, 
   return function (this: any, ...args: Parameters<T>) {
     const context = this;
 
-    // Function to execute after the wait period
     const later = () => {
       timeout = null;
+
       if (!immediate) func.apply(context, args);
     };
 
-    // Determine if the function should be called immediately
     const callNow = immediate && timeout === null;
 
-    // Clear the timeout if it already exists
     if (timeout) clearTimeout(timeout);
-
-    // Set a new timeout
-    timeout = setTimeout(later, wait);
-
-    // Call the function immediately if needed
     if (callNow) func.apply(context, args);
+
+    timeout = setTimeout(later, wait);
   };
 }
 
